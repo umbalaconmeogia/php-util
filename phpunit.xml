@@ -1,3 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="src/autoload.php">
+<phpunit bootstrap="src/autoload.php"
+         backupGlobals="false"
+         backupStaticAttributes="false"
+         strict="true"
+         verbose="true">
+  <testsuites>
+    <testsuite name="unit">
+      <directory suffix="Test.php">tests/unit</directory>
+      <!--<directory suffix="Test.php">tests/system</directory>-->
+    </testsuite>
+  </testsuites>
 </phpunit>
