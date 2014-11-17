@@ -6,6 +6,8 @@ spl_autoload_register(
         if ($classes === null) {
             $classes = array(
                 'batsg\\util\\random' => '/util/Random.php',
+                'batsg\\util\\file\\zip' => '/util/file/Zip.php',
+                'batsg\\util\\file\\file' => '/util/file/File.php',
             );
         }
         $cn = strtolower($class);
