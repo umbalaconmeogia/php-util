@@ -6,11 +6,17 @@ class FileTest extends PHPUnit_Framework_TestCase
     const SOURCE_DIR = 'rootDirectory';
 
     /**
+     * Get the path of source directory.
+     * @param string $subDir If set, then return path to this subdirectory. If not set, then return the path to root directory.
      * @return string
      */
-    private function sourceDirPath()
+    private function sourceDirPath($subDir = NULL)
     {
-        return __DIR__ . "/../fixture/" . self::SOURCE_DIR;
+        $result = __DIR__ . "/../fixture/" . self::SOURCE_DIR;
+        if ($subDir) {
+            $result .= "/$subDir";
+        }
+        return $result;
     }
 
     /**
@@ -27,6 +33,11 @@ class FileTest extends PHPUnit_Framework_TestCase
     private function destDirPath($dir = self::SOURCE_DIR)
     {
         return $this->destDirParentPath() . "/{$dir}";
+    }
+    
+    protected function tearDown()
+    {
+        $this->makeSureDestDirNotExist();
     }
 
     /**
@@ -45,27 +56,36 @@ class FileTest extends PHPUnit_Framework_TestCase
 
     public function testFileName()
     {
-        // With extension
+        // File not start with dot, get extension.
         $this->assertEquals('lib.inc.php', File::fileName('/path/to/lib.inc.php'));
         $this->assertEquals('lib.php', File::fileName('/path/to/lib.php'));
         $this->assertEquals('lib', File::fileName('/path/to/lib'));
+        // File start with dot, get extension.
+        $this->assertEquals('.lib.inc.php', File::fileName('/path/to/.lib.inc.php'));
+        $this->assertEquals('.lib.php', File::fileName('/path/to/.lib.php'));
         $this->assertEquals('.lib', File::fileName('/path/to/.lib'));
-        // Without extension.
+        // File not start with dot, don't get extension.
         $this->assertEquals('lib.inc', File::fileName('/path/to/lib.inc.php', FALSE));
         $this->assertEquals('lib', File::fileName('/path/to/lib.php', FALSE));
         $this->assertEquals('lib', File::fileName('/path/to/lib', FALSE));
-        // This fails
-//        $this->assertEquals('.lib', File::fileName('/path/to/.lib', FALSE));
+        // File start with dot, don't get extension.
+        $this->assertEquals('.lib.inc', File::fileName('/path/to/.lib.inc.php', FALSE));
+        $this->assertEquals('.lib', File::fileName('/path/to/.lib.php', FALSE));
+        $this->assertEquals('.lib', File::fileName('/path/to/.lib', FALSE));
     }
     
     public function testFileExtension()
     {
+        // File not start with dot.
         $this->assertEquals('php', File::fileExtension('/path/to/lib.inc.php'));
         $this->assertEquals('php', File::fileExtension('/path/to/lib.php'));
         $this->assertEquals(NULL, File::fileExtension('/path/to/lib'));
         $this->assertEquals(NULL, File::fileExtension('/path/to/lib.'));
-        // This fails
-//        $this->assertEquals(NULL, File::fileExtension('/path/to/.lib'));
+        // File start with dot
+        $this->assertEquals('php', File::fileExtension('/path/to/.lib.inc.php'));
+        $this->assertEquals('php', File::fileExtension('/path/to/.lib.php'));
+        $this->assertEquals(NULL, File::fileExtension('/path/to/.lib'));
+        $this->assertEquals(NULL, File::fileExtension('/path/to/.lib.'));
     }
 
     /**
@@ -107,9 +127,38 @@ class FileTest extends PHPUnit_Framework_TestCase
         $this->assertFileNotExists($destDirPath);
     }
     
-    protected function tearDown()
+    /**
+     * @depends testFileName
+     */
+    public function testListFileOnly()
     {
-        $this->makeSureDestDirNotExist();
+        $files = File::listFileOnly($this->sourceDirPath('testList'));
+        $this->assertCount(3, $files);
+        $keys = array('.dot.txt', 'file1', 'file2');
+        foreach ($keys as $key) {
+            $filePath = $files[$key];
+            $this->assertArrayHasKey($key, $files);
+            $this->assertEquals($key, File::fileName($filePath));
+            $this->assertFileExists($filePath);
+            $this->assertTrue(is_file($filePath));
+        }
+    }
+    
+    /**
+     * @depends testFileName
+     */
+    public function testListDirOnly()
+    {
+        $files = File::listDirOnly($this->sourceDirPath('testList'));
+        $this->assertCount(2, $files);
+        $keys = array('dir1', 'dir2');
+        foreach ($keys as $key) {
+            $filePath = $files[$key];
+            $this->assertArrayHasKey($key, $files);
+            $this->assertEquals($key, File::fileName($filePath));
+            $this->assertFileExists($filePath);
+            $this->assertTrue(is_dir($filePath));
+        }
     }
 }
 ?>

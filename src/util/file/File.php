@@ -38,19 +38,6 @@ namespace Batsg\Util\File;
 class File
 {
     /**
-     * Get the file extension.
-     * TODO: For a file as ".lib", it should return NULL as file extension.
-     * @param string $path Path to the file name.
-     * @return string File extension (after the last dot .)
-     *         or NULL if there is no extension.
-     */
-    public static function fileExtension($path)
-    {
-        $pathInfo = pathinfo($path);
-        return isset($pathInfo['extension']) ? $pathInfo['extension'] : NULL;
-    }
-
-    /**
      * Get the file name (with or without extension).
      * TODO: For a file as ".lib", it should return ".lib" as file name without extension.
      * @param string $path Path to the file name.
@@ -58,10 +45,40 @@ class File
      */
     public static function fileName($path, $withExtension = TRUE)
     {
+        // pathinfo() cannot get right extension if file start with dot and there is no extension.
         $pathInfo = pathinfo($path);
-        return $withExtension ? $pathInfo['basename'] : $pathInfo['filename'];
+        $fileName = $pathInfo['basename'];
+        $result = $fileName;
+        if (!self::fileStartWithDotAndThereIsNoExt($fileName)) { // Not a file start with dot and there is not extension.
+            $result = $withExtension ? $pathInfo['basename'] : $pathInfo['filename'];
+        }
+        return $result;
     }
 
+    /**
+     * Get the file extension.
+     * @param string $path Path to the file name.
+     * @return string File extension (after the last dot .)
+     *         or NULL if there is no extension.
+     */
+    public static function fileExtension($path)
+    {
+        // pathinfo() cannot get right extension if file start with dot and there is no extension.
+        $pathInfo = pathinfo($path);
+        $fileName = $pathInfo['basename'];
+        $result = NULL;
+        if (!self::fileStartWithDotAndThereIsNoExt($fileName)) { // Not a file start with dot and there is not extension.
+            $result = isset($pathInfo['extension']) ? $pathInfo['extension'] : NULL;
+        }
+        return $result;
+    }
+
+    private static function fileStartWithDotAndThereIsNoExt($fileName)
+    {
+        $result = preg_match('/^\.[^\.]*$/', $fileName, $matches);
+        return $result;
+    }
+    
    /**
      * Copy a directory recursively.
      * Usage:
@@ -122,6 +139,44 @@ class File
             }
         }
         rmdir($directory);
+    }
+
+    /**
+     * List files inside specified path (exclude . and ..).
+     * @param string $directory
+     * @return array of filename => path
+     */
+    public static function listFileOnly($directory)
+    {
+        $result = array();
+        foreach (scandir($directory) as $file) {
+            if ($file != '.' && $file != '..') {
+                $path = "$directory/$file";
+                if (is_file($path)) {
+                    $result[$file] = $path;
+                }
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * List directories inside specified path (exclude . and ..).
+     * @param string $directory
+     * @return array of dirname => path
+     */
+    public static function listDirOnly($directory)
+    {
+        $result = array();
+        foreach (scandir($directory) as $file) {
+            if ($file != '.' && $file != '..') {
+                $path = "$directory/$file";
+                if (is_dir($path)) {
+                    $result[$file] = $path;
+                }
+            }
+        }
+        return $result;
     }
 }
 ?>
