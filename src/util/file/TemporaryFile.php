@@ -37,5 +37,31 @@ namespace Batsg\Util\File;
  */
 class TemporaryFile
 {
+    /**
+     * NOTE: Windows uses only the first three characters of prefix.
+     * @var string
+     */
+    public static $defaultPrefix = 'batsg';
+
+    /**
+     * Generate a path to temporary file.
+     *
+     * @param string $prefix
+     * @return string Return the file path.
+     */
+    public static function generateFile($tempDir = NULL, $deleteFile = FALSE, $prefix = NULL)
+    {
+        if ($tempDir == NULL) {
+            $tempDir = sys_get_temp_dir();
+        }
+        if ($prefix == NULL) {
+            $prefix = self::$defaultPrefix;
+        }
+        $filePath = tempnam($tempDir, $prefix);
+        if ($deleteFile) {
+            File::delete($filePath);
+        }
+        return $filePath;
+    }
 }
 ?>

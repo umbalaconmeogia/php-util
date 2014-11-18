@@ -88,6 +88,11 @@ class FileTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(NULL, File::fileExtension('/path/to/.lib.'));
     }
 
+    public function testFileDir()
+    {
+        $this->assertEquals();
+    }
+    
     /**
      * @depends testFileName
      */

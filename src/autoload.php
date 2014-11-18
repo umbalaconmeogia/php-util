@@ -8,6 +8,7 @@ spl_autoload_register(
                 'batsg\\util\\random' => '/util/Random.php',
                 'batsg\\util\\file\\zip' => '/util/file/Zip.php',
                 'batsg\\util\\file\\file' => '/util/file/File.php',
+                'batsg\\util\\file\\temporaryfile' => '/util/file/TemporaryFile.php',
             );
         }
         $cn = strtolower($class);

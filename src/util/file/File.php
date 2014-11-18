@@ -72,6 +72,21 @@ class File
         }
         return $result;
     }
+    
+    /**
+     * Get parent directory path of file or directory.
+     * @param string $path Path to the file or directory.
+     * @param boolean $absolutePath If true, then return the absolute path.
+     * @return string Parent directory.
+     */
+    public static function fileDir($path, $absolutePath = FALSE)
+    {
+        $dir = dirname($path);
+        if ($absolutePath) {
+            $dir = realpath($dir);
+        }
+        return $dir;
+    }
 
     private static function fileStartWithDotAndThereIsNoExt($fileName)
     {
