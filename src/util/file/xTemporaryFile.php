@@ -30,10 +30,10 @@
  * @license http://opensource.org/licenses/MIT
  * @link https://github.com/umbalaconmeogia/batsg-php-util
  */
-namespace Batsg\Util;
+namespace Batsg\Util\File;
 
 /**
- * Manipulate TemporaryFile.
+ * Manipulate php temporary file.
  */
 class TemporaryFile
 {

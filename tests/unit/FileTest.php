@@ -37,13 +37,13 @@ class FileTest extends PHPUnit_Framework_TestCase
     
     protected function tearDown()
     {
-        $this->makeSureDestDirNotExist();
+        $this->assureDestDirNotExist();
     }
 
     /**
      * @param string $dir
      */
-    private function makeSureDestDirNotExist()
+    private function assureDestDirNotExist()
     {
         $dir = $this->destDirPath();
         if (file_exists($dir) && is_dir($dir)) {
@@ -94,13 +94,13 @@ class FileTest extends PHPUnit_Framework_TestCase
     public function testCopyDir()
     {
         // Copy dir to dest parent.
-        $this->makeSureDestDirNotExist();
+        $this->assureDestDirNotExist();
         File::copy($this->sourceDirPath(), $this->destDirParentPath());
         $this->assertFileExists($this->destDirPath());
         $this->assertDirEquals($this->sourceDirPath(), $this->destDirPath());
 
         // Copy sub directories and files.
-        $this->makeSureDestDirNotExist();
+        $this->assureDestDirNotExist();
         mkdir($this->destDirPath());
         $this->assertFileExists($this->destDirPath());
         File::copy($this->sourceDirPath(), $this->destDirPath(), FALSE);
@@ -109,7 +109,10 @@ class FileTest extends PHPUnit_Framework_TestCase
 
     private function assertDirEquals($dir1, $dir2)
     {
-        //TODO
+        $this->markTestIncomplete(
+          'Must confirm whether two directories equals.'
+        );
+
     }
     
     /**
@@ -119,7 +122,7 @@ class FileTest extends PHPUnit_Framework_TestCase
     {
         $destDirPath = $this->destDirPath();
         // Copy file.
-        $this->makeSureDestDirNotExist();
+        $this->assureDestDirNotExist();
         File::copy($this->sourceDirPath(), $this->destDirParentPath());
         $this->assertFileExists($destDirPath);
         // Remove file.
@@ -159,6 +162,22 @@ class FileTest extends PHPUnit_Framework_TestCase
             $this->assertFileExists($filePath);
             $this->assertTrue(is_dir($filePath));
         }
+    }
+    
+    public function testDelete()
+    {
+        // Copy dir to dest parent.
+        $this->assureDestDirNotExist();
+        File::copy($this->sourceDirPath(), $this->destDirParentPath());
+        
+        $file = $this->destDirPath() . '/file1.txt';
+        $this->assertFileExists($file);
+        File::delete($file);
+        $this->assertFileNotExists($file);
+        
+        $file = $this->destDirPath();
+        File::delete($file);
+        $this->assertFileNotExists($file);        
     }
 }
 ?>

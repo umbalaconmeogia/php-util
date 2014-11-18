@@ -178,5 +178,22 @@ class File
         }
         return $result;
     }
+    
+    /**
+     * Delete a file or directory.
+     * @param string $file
+     */
+    public static function delete($file)
+    {
+        if (file_exists($file)) {
+            if (is_dir($file)) {
+                self::rmdir($file);
+            } else {
+                if (!unlink($file)) {
+                    throw new Exception("Error deleting file $file.");
+                }
+            }
+        }
+    }
 }
 ?>
