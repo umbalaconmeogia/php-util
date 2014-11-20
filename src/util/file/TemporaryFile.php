@@ -63,5 +63,22 @@ class TemporaryFile
         }
         return $filePath;
     }
+
+    /**
+     * Write a content to a temporary file.
+     * @param string $content
+     * @param string $filePath If not specified, then a new file is created.
+     * @return string Return the file path.
+     */
+    public static function writeContentToFile($content, $filePath = NULL)
+    {
+        if (!$filePath) {
+            $filePath = self::generateFile();
+        }
+        if (file_put_contents($filePath, $content) === FALSE) {
+            throw new Exception("Error while write content to file $filePath");
+        }
+        return $filePath;
+    }
 }
 ?>

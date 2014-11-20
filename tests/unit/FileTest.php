@@ -90,7 +90,8 @@ class FileTest extends PHPUnit_Framework_TestCase
 
     public function testFileDir()
     {
-        $this->assertEquals();
+        $this->assertEquals(__DIR__, File::fileDir(__FILE__));
+        $this->assertEquals(realpath(__DIR__), File::fileDir(__FILE__, TRUE));
     }
     
     /**
@@ -114,11 +115,11 @@ class FileTest extends PHPUnit_Framework_TestCase
 
     private function assertDirEquals($dir1, $dir2)
     {
-        $this->markTestIncomplete(
-          'Must confirm whether two directories equals.'
-        );
-
-    }
+      // TODO
+//        $this->markTestIncomplete(
+//          'Must confirm whether two directories equals.'
+//        );
+  }
     
     /**
      * @depends testCopyDir
