@@ -43,7 +43,7 @@ class File
      * @param string $path Path to the file name.
      * @return string File name.
      */
-    public static function fileName($path, $withExtension = TRUE)
+    public static function getFileName($path, $withExtension = TRUE)
     {
         // pathinfo() cannot get right extension if file start with dot and there is no extension.
         $pathInfo = pathinfo($path);
@@ -61,7 +61,7 @@ class File
      * @return string File extension (after the last dot .)
      *         or NULL if there is no extension.
      */
-    public static function fileExtension($path)
+    public static function getFileExtension($path)
     {
         // pathinfo() cannot get right extension if file start with dot and there is no extension.
         $pathInfo = pathinfo($path);
@@ -79,7 +79,7 @@ class File
      * @param boolean $absolutePath If true, then return the absolute path.
      * @return string Parent directory.
      */
-    public static function fileDir($path, $absolutePath = FALSE)
+    public static function getFileDir($path, $absolutePath = FALSE)
     {
         $dir = dirname($path);
         if ($absolutePath) {
@@ -164,7 +164,7 @@ class File
     public static function copy($source, $dest, $destIsParentDir = TRUE) {
         $dir = opendir($source);
         if ($destIsParentDir) {
-            $dest = "{$dest}/" . self::fileName($source);
+            $dest = "{$dest}/" . self::getFileName($source);
         }
         @mkdir($dest);
         while (FALSE !== ($file = readdir($dir))) {

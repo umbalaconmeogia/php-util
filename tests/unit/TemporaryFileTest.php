@@ -15,7 +15,7 @@ class TemporaryFileTest extends PHPUnit_Framework_TestCase
         // Generate file in system default dir.
         $file = TemporaryFile::generateFile();
         $this->assertStringStartsWith($systemTempDirPath, $file);
-        $this->assertStringStartsWith($prefix, File::fileName($file));
+        $this->assertStringStartsWith($prefix, File::getFileName($file));
         $this->assertFileExists($file);
         File::delete($file);
         // Generate file in specified dir.
@@ -30,7 +30,7 @@ class TemporaryFileTest extends PHPUnit_Framework_TestCase
         // Change file prefix.
         $prefix = 'tf1';
         $file = TemporaryFile::generateFile(NULL, TRUE, $prefix);
-        $this->assertStringStartsWith($prefix, File::fileName($file));
+        $this->assertStringStartsWith($prefix, File::getFileName($file));
         $this->assertFileNotExists($file);
     }
     

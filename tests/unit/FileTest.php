@@ -57,41 +57,41 @@ class FileTest extends PHPUnit_Framework_TestCase
     public function testFileName()
     {
         // File not start with dot, get extension.
-        $this->assertEquals('lib.inc.php', File::fileName('/path/to/lib.inc.php'));
-        $this->assertEquals('lib.php', File::fileName('/path/to/lib.php'));
-        $this->assertEquals('lib', File::fileName('/path/to/lib'));
+        $this->assertEquals('lib.inc.php', File::getFileName('/path/to/lib.inc.php'));
+        $this->assertEquals('lib.php', File::getFileName('/path/to/lib.php'));
+        $this->assertEquals('lib', File::getFileName('/path/to/lib'));
         // File start with dot, get extension.
-        $this->assertEquals('.lib.inc.php', File::fileName('/path/to/.lib.inc.php'));
-        $this->assertEquals('.lib.php', File::fileName('/path/to/.lib.php'));
-        $this->assertEquals('.lib', File::fileName('/path/to/.lib'));
+        $this->assertEquals('.lib.inc.php', File::getFileName('/path/to/.lib.inc.php'));
+        $this->assertEquals('.lib.php', File::getFileName('/path/to/.lib.php'));
+        $this->assertEquals('.lib', File::getFileName('/path/to/.lib'));
         // File not start with dot, don't get extension.
-        $this->assertEquals('lib.inc', File::fileName('/path/to/lib.inc.php', FALSE));
-        $this->assertEquals('lib', File::fileName('/path/to/lib.php', FALSE));
-        $this->assertEquals('lib', File::fileName('/path/to/lib', FALSE));
+        $this->assertEquals('lib.inc', File::getFileName('/path/to/lib.inc.php', FALSE));
+        $this->assertEquals('lib', File::getFileName('/path/to/lib.php', FALSE));
+        $this->assertEquals('lib', File::getFileName('/path/to/lib', FALSE));
         // File start with dot, don't get extension.
-        $this->assertEquals('.lib.inc', File::fileName('/path/to/.lib.inc.php', FALSE));
-        $this->assertEquals('.lib', File::fileName('/path/to/.lib.php', FALSE));
-        $this->assertEquals('.lib', File::fileName('/path/to/.lib', FALSE));
+        $this->assertEquals('.lib.inc', File::getFileName('/path/to/.lib.inc.php', FALSE));
+        $this->assertEquals('.lib', File::getFileName('/path/to/.lib.php', FALSE));
+        $this->assertEquals('.lib', File::getFileName('/path/to/.lib', FALSE));
     }
     
     public function testFileExtension()
     {
         // File not start with dot.
-        $this->assertEquals('php', File::fileExtension('/path/to/lib.inc.php'));
-        $this->assertEquals('php', File::fileExtension('/path/to/lib.php'));
-        $this->assertEquals(NULL, File::fileExtension('/path/to/lib'));
-        $this->assertEquals(NULL, File::fileExtension('/path/to/lib.'));
+        $this->assertEquals('php', File::getFileExtension('/path/to/lib.inc.php'));
+        $this->assertEquals('php', File::getFileExtension('/path/to/lib.php'));
+        $this->assertEquals(NULL, File::getFileExtension('/path/to/lib'));
+        $this->assertEquals(NULL, File::getFileExtension('/path/to/lib.'));
         // File start with dot
-        $this->assertEquals('php', File::fileExtension('/path/to/.lib.inc.php'));
-        $this->assertEquals('php', File::fileExtension('/path/to/.lib.php'));
-        $this->assertEquals(NULL, File::fileExtension('/path/to/.lib'));
-        $this->assertEquals(NULL, File::fileExtension('/path/to/.lib.'));
+        $this->assertEquals('php', File::getFileExtension('/path/to/.lib.inc.php'));
+        $this->assertEquals('php', File::getFileExtension('/path/to/.lib.php'));
+        $this->assertEquals(NULL, File::getFileExtension('/path/to/.lib'));
+        $this->assertEquals(NULL, File::getFileExtension('/path/to/.lib.'));
     }
 
     public function testFileDir()
     {
-        $this->assertEquals(__DIR__, File::fileDir(__FILE__));
-        $this->assertEquals(realpath(__DIR__), File::fileDir(__FILE__, TRUE));
+        $this->assertEquals(__DIR__, File::getFileDir(__FILE__));
+        $this->assertEquals(realpath(__DIR__), File::getFileDir(__FILE__, TRUE));
     }
     
     /**
@@ -166,7 +166,7 @@ class FileTest extends PHPUnit_Framework_TestCase
         foreach ($keys as $key) {
             $filePath = $files[$key];
             $this->assertArrayHasKey($key, $files);
-            $this->assertEquals($key, File::fileName($filePath));
+            $this->assertEquals($key, File::getFileName($filePath));
             $this->assertFileExists($filePath);
             $this->assertTrue(is_file($filePath));
         }
@@ -183,7 +183,7 @@ class FileTest extends PHPUnit_Framework_TestCase
         foreach ($keys as $key) {
             $filePath = $files[$key];
             $this->assertArrayHasKey($key, $files);
-            $this->assertEquals($key, File::fileName($filePath));
+            $this->assertEquals($key, File::getFileName($filePath));
             $this->assertFileExists($filePath);
             $this->assertTrue(is_dir($filePath));
         }
