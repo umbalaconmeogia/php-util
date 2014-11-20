@@ -88,6 +88,64 @@ class File
         return $dir;
     }
 
+    /**
+     * Compare if two files' content are equals.
+     * @param string $file1
+     * @param string $file2
+     * @return boolean TRUE if two files are equal, FALSE otherwise.
+     */
+    public static function filesEqual($file1, $file2)
+    {
+      return (filesize($file1) == filesize($file2)) && (md5_file($file1) == md5_file($file2));
+    }
+    
+    /**
+     * Compare if directories and files in two directories are the same.
+     * @param string $dir1
+     * @param string $dir2
+     * @return boolean TRUE if two directories are equal, FALSE otherwise.
+     */
+    public static function dirsEqual($dir1, $dir2)
+    {
+        $result = TRUE;
+        // Compare files.
+        $files1 = self::listFileOnly($dir1);
+        $files2 = self::listFileOnly($dir2);
+        $result = \Batsg\Util\HArray::valueEqual(array_keys($files1), array_keys($files2));
+        // Compare files' content
+        if ($result) {
+            foreach ($files1 as $key => $path1) {
+                $path2 = $files2[$key];
+                if (!File::filesEqual($path1, $path2)) {
+                    $result = FALSE;
+                    break;
+                }
+            }
+        }
+        // Compare sub directories.
+        if ($result) {
+            $files1 = self::listDirOnly($dir1);
+            $files2 = self::listDirOnly($dir2);
+            $result = \Batsg\Util\HArray::valueEqual(array_keys($files1), array_keys($files2));
+            if ($result) {
+                foreach ($files1 as $key => $path1) {
+                    $path2 = $files2[$key];
+                    if (!File::dirsEqual($path1, $path2)) {
+                        $result = FALSE;
+                        break;
+                    }
+                }
+            }
+            else {
+            }
+        }
+        return $result;
+    }
+    
+    /**
+     * @param string $fileName
+     * @return boolean TRUE if file start with dot and there is no extension.
+     */
     private static function fileStartWithDotAndThereIsNoExt($fileName)
     {
         $result = preg_match('/^\.[^\.]*$/', $fileName, $matches);

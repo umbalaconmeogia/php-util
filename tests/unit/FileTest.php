@@ -103,23 +103,42 @@ class FileTest extends PHPUnit_Framework_TestCase
         $this->assureDestDirNotExist();
         File::copy($this->sourceDirPath(), $this->destDirParentPath());
         $this->assertFileExists($this->destDirPath());
-        $this->assertDirEquals($this->sourceDirPath(), $this->destDirPath());
+        $this->assertDirsEqual($this->sourceDirPath(), $this->destDirPath());
 
         // Copy sub directories and files.
         $this->assureDestDirNotExist();
         mkdir($this->destDirPath());
         $this->assertFileExists($this->destDirPath());
         File::copy($this->sourceDirPath(), $this->destDirPath(), FALSE);
-        $this->assertDirEquals($this->sourceDirPath(), $this->destDirPath());
+        $this->assertDirsEqual($this->sourceDirPath(), $this->destDirPath());
     }
 
-    private function assertDirEquals($dir1, $dir2)
+    /**
+     * @depend testFilesEqual
+     */
+    public function testDirsEqual()
     {
-      // TODO
-//        $this->markTestIncomplete(
-//          'Must confirm whether two directories equals.'
-//        );
-  }
+        $testCases = array(
+            'equal2' => TRUE,
+            'diffDirName' => FALSE,
+            'diffFileName' => FALSE,
+            'diffFileContent' => FALSE,
+        );
+        foreach ($testCases as $dir => $result) {
+            $this->assertEquals($result, File::dirsEqual($this->sourceDirPath('testEqual/equal1'), $this->sourceDirPath("testEqual/$dir")));
+        }
+    }
+    
+    private function assertDirsEqual($dir1, $dir2)
+    {
+        $this->assertTrue(File::dirsEqual($dir1, $dir2));
+    }
+    
+    public function testFilesEqual()
+    {
+        $this->assertTrue(File::filesEqual(
+            $this->sourceDirPath('testEqual/equalFile1'), $this->sourceDirPath('testEqual/equalFile2')));
+    }
     
     /**
      * @depends testCopyDir
