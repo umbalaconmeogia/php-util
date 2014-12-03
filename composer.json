@@ -1,0 +1,20 @@
+{
+    "name": "umbalaconmeogia/php-util",
+    "description": "My PHP utility classes.",
+    "keywords": ["php", "utility"],
+    "homepage": "http://www.github.com/umbalaconmeogia/php-util",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tran Trung Thanh",
+            "email": "umbalaconmeogia@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "ext-intl": "*"
+    },
+    "autoload": {
+        "psr-4": {"Umbalaconmeogia\\Util\\": "src/"}
+    }
+}
