@@ -1,5 +1,5 @@
 <?php
-use \Batsg\Util\HDateTime;
+use \Umbalaconmeogia\Util\HDateTime;
 
 class HDateTimeTest extends PHPUnit_Framework_TestCase
 {
@@ -26,7 +26,7 @@ class HDateTimeTest extends PHPUnit_Framework_TestCase
     {
         parent::__construct();
         
-        date_timezone_set('Tokyo');
+        date_default_timezone_set('Asia/Tokyo');
         
         $this->testTimestamp = 1380622272;
         $this->testTimestampString = '1380622272';

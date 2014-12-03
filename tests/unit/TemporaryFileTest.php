@@ -1,6 +1,6 @@
 <?php
-use Batsg\Util\File\TemporaryFile;
-use Batsg\Util\File\File;
+use Umbalaconmeogia\Util\File\TemporaryFile;
+use Umbalaconmeogia\Util\File\File;
 
 class TemporaryFileTest extends PHPUnit_Framework_TestCase
 {

@@ -7,13 +7,13 @@
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @package Batsg\Util
+ * @package Umbalaconmeogia\Util
  * @author Tran Trung Thanh <umbalaconmeogia@gmail.com>
  * @copyright 2014 Tran Trung Thanh <umbalaconmeogia@gmail.com>
  * @license http://opensource.org/licenses/MIT
- * @link https://github.com/umbalaconmeogia/batsg-php-util
+ * @link https://github.com/umbalaconmeogia/php-util
  */
-namespace Batsg\Util\File;
+namespace Umbalaconmeogia\Util\File;
 
 /**
  * Manipulate file and directory.
@@ -93,7 +93,7 @@ class File
         // Compare files.
         $files1 = self::listFileOnly($dir1);
         $files2 = self::listFileOnly($dir2);
-        $result = \Batsg\Util\HArray::valueEqual(array_keys($files1), array_keys($files2));
+        $result = \Umbalaconmeogia\Util\HArray::valueEqual(array_keys($files1), array_keys($files2));
         // Compare files' content
         if ($result) {
             foreach ($files1 as $key => $path1) {
@@ -108,7 +108,7 @@ class File
         if ($result) {
             $files1 = self::listDirOnly($dir1);
             $files2 = self::listDirOnly($dir2);
-            $result = \Batsg\Util\HArray::valueEqual(array_keys($files1), array_keys($files2));
+            $result = \Umbalaconmeogia\Util\HArray::valueEqual(array_keys($files1), array_keys($files2));
             if ($result) {
                 foreach ($files1 as $key => $path1) {
                     $path2 = $files2[$key];

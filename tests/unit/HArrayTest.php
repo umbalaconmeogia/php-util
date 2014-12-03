@@ -1,5 +1,5 @@
 <?php
-use Batsg\Util\HArray;
+use Umbalaconmeogia\Util\HArray;
 
 class HArrayTest extends PHPUnit_Framework_TestCase
 {

@@ -1,5 +1,5 @@
 <?php
-use Batsg\Util\Random;
+use Umbalaconmeogia\Util\Random;
 
 class RandomTest extends PHPUnit_Framework_TestCase
 {
