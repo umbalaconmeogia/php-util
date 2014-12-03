@@ -5,12 +5,12 @@ spl_autoload_register(
         static $classes = null;
         if ($classes === null) {
             $classes = array(
-                'umbalaconmeogia\\util\\harray' => '/util/HArray.php',
-                'umbalaconmeogia\\util\\hdatetime' => '/util/HDateTime.php',
-                'umbalaconmeogia\\util\\random' => '/util/Random.php',
-                'umbalaconmeogia\\util\\file\\file' => '/util/file/File.php',
-                'umbalaconmeogia\\util\\file\\temporaryfile' => '/util/file/TemporaryFile.php',
-                'umbalaconmeogia\\util\\file\\zip' => '/util/file/Zip.php',
+                'umbalaconmeogia\\util\\harray' => '/HArray.php',
+                'umbalaconmeogia\\util\\hdatetime' => '/HDateTime.php',
+                'umbalaconmeogia\\util\\random' => '/Random.php',
+                'umbalaconmeogia\\util\\file\\file' => '/file/File.php',
+                'umbalaconmeogia\\util\\file\\temporaryfile' => '/file/TemporaryFile.php',
+                'umbalaconmeogia\\util\\file\\zip' => '/file/Zip.php',
             );
         }
         $cn = strtolower($class);
