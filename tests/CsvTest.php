@@ -1,51 +1,55 @@
 <?php
 use PHPUnit\Framework\TestCase;
-use umbalaconmeogia\phputil\Csv;
+use umbalaconmeogia\phputil\data\Csv;
 
 final class CsvTest extends TestCase
 {
-    /**
-     * Data to write to CSV file.
-     */
-    private $dataArray = [
-        [1, 2, 3],
-        [2, 3, 4],
-        [3, 4, 5],
-    ];
+    private static function dataArray(): array
+    {
+        return CsvData::$dataArray;
+    }
 
-    private function writeCsvFile()
+    /**
+     * @return string Created csv file name.
+     */
+    public static function writeCsvFile($csvData): string
     {
         $csvFile = tempnam("./", "tmp");
 
-        Csv::arrayToCsv($this->dataArray, $csvFile);
+        Csv::arrayToCsv($csvData, $csvFile);
 
         return $csvFile;
     }
 
-    private function readCsvFile(string $csvFile): array
+    public function testCsvToArray(): array
     {
-        $handle = fopen($csvFile, 'r');
+        $csvFile = __DIR__ . "/fixtures/people.csv";
+        $csvData = Csv::csvToArray($csvFile);
 
-        $result = [];
-        while (($data = fgetcsv($handle)) !== FALSE) {
-            $result[] = $data;
-        }
+        $numberOfRows = count($csvData);
+        $header = $csvData[0];
+        $this->assertEquals(3, $numberOfRows);
+        $this->assertEquals('name', $header[0]);
+        $this->assertEquals('age', $header[1]);
+        $this->assertEquals('address', $header[2]);
 
-        fclose($handle);
-        return $result;
+        return $csvData;
     }
 
-    public function testArrayToCsv(): void
+    /**
+     * @depends testCsvToArray
+     */
+    public function testArrayToCsv(array $fixtureCsvData): void
     {
-        $csvFile = $this->writeCsvFile();
-        $loadCsvData = $this->readCsvFile($csvFile);
+        $csvFile = $this->writeCsvFile($fixtureCsvData);
+        $tempCsvData = Csv::csvToArray($csvFile);
 
         $this->assertFileExists($csvFile);
-        $this->assertEquals(count($this->dataArray), count($loadCsvData));
-        for ($row = 0; $row < count($this->dataArray); $row++) {
-            $nCol = count($this->dataArray[$row]);
+        $this->assertEquals(count($tempCsvData), count($fixtureCsvData));
+        for ($row = 0; $row < count($tempCsvData); $row++) {
+            $nCol = count($tempCsvData[$row]);
             for ($col = 0; $col < $nCol; $col++) {
-                $this->assertEquals($this->dataArray[$row][$col], $loadCsvData[$row][$col]);
+                $this->assertEquals($tempCsvData[$row][$col], $fixtureCsvData[$row][$col]);
             }
         }
 
