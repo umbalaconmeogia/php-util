@@ -1,6 +1,5 @@
-<?php
 /**
- * php-batsg-util: PHP utility classes.
+ * php-util: PHP utility classes.
  * Copyright (c) <2014> Tran Trung Thanh <umbalaconmeogia@gmail.com>
  *
  * Licensed under The MIT License
@@ -13,12 +12,3 @@
  * @license http://opensource.org/licenses/MIT
  * @link https://github.com/umbalaconmeogia/php-util
  */
-namespace Umbalaconmeogia\Util;
-
-/**
- * Manipulate Japanese.
- */
-class Japanese
-{
-}
-?>
