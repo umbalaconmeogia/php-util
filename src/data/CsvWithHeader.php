@@ -66,7 +66,7 @@ class CsvWithHeader
      * This will open the CSV file, and load header from the first row.
      * <p />
      * @param string $csvFile
-     * @param function $callback Call back function that receives CsvWithHeader as parameter.
+     * @param Closure $callback Call back function that receives CsvWithHeader as parameter.
      */
     public static function read($csvFile, $callback)
     {
