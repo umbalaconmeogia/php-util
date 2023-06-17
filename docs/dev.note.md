@@ -21,6 +21,15 @@ There are at least two ways of installing PHPUnit.
     PHPUnit 9.5.21
     ```
 
+### Running test
+
+(Incase install phpunit into vendor directory via composer)
+
+#### Running all test cases
+```shell
+./vendor/bin/phpunit
+```
+
 ### References
 
 * [PHPUnit](https://phpunit.de/)

@@ -35,4 +35,11 @@ class Csv
         fclose($handle);
         return $result;
     }
+
+    public static function correctUtf8CsvOnWindows()
+    {
+        if(0 === strpos(PHP_OS, 'WIN')) {
+            setlocale(LC_CTYPE, 'C');
+        }        
+    }
 }
