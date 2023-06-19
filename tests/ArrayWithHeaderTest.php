@@ -132,4 +132,11 @@ class ArrayWithHeaderTest extends TestCase
         $newRow = $this->arrayWH->getRowByAttributes(1);
         $this->assertEquals($row, $newRow);
     }
+
+    public function testAssocToNormalArray()
+    {
+        $assocRow = ['address' => 'New address Assoc', 'age' => 30, 'name' => 'New name Assoc'];
+        $orderRow = $this->arrayWH->assocToNormalArray($assocRow);
+        $this->assertEquals(['New name Assoc', 30, 'New address Assoc'], $orderRow);
+    }
 }

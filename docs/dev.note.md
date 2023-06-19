@@ -27,6 +27,11 @@ There are at least two ways of installing PHPUnit.
 
 #### Running all test cases
 ```shell
+./vendor/bin/phpunit tests/NumberSystemTest.php
+```
+
+#### Running specified test case
+```shell
 ./vendor/bin/phpunit
 ```
 

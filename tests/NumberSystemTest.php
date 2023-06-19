@@ -151,20 +151,31 @@ class NumberSystemTest extends TestCase
         }
     }
 
-    // public function testSomeValue()
-    // {
-    //     $fromHex = NumberSystem::convertToDecimal('FF0', NumberSystem::DIGIT_HEXADECIMAL);
-    //     echo "fromHex $fromHex\n";
-    //     $fromBinary = NumberSystem::convertToDecimal('100110', NumberSystem::DIGIT_BINARY);
-    //     echo "fromBinary $fromBinary\n";
-    //     $hexValue = NumberSystem::convertFromDecimal(NumberSystem::DIGIT_HEXADECIMAL, 1234567890);
-    //     echo "hexValue $hexValue\n";
-    //     $binaryValue = NumberSystem::convertFromDecimal(NumberSystem::DIGIT_BINARY, 1234567890);
-    //     echo "binaryValue $binaryValue\n";
-    //     $digitAndLowerCaseDigits = NumberSystem::convert(NumberSystem::DITGIT_LOWER_CASE, 1234567890, NumberSystem::DIGIT_DECIMAL);
-    //     echo "digitAndLowerCaseDigits $digitAndLowerCaseDigits\n";
-    //     $hexadecimalValue = NumberSystem::convert(NumberSystem::DIGIT_HEXADECIMAL, 1234567890, NumberSystem::DIGIT_DECIMAL);
-    //     echo "hexadecimalValue $hexadecimalValue\n";
-    // }
+    /**
+     * @test1
+     */
+    public function toTestSomeValue()
+    {
+        $fromHex = NumberSystem::convertToDecimal('FF0', NumberSystem::DIGIT_HEXADECIMAL);
+        echo "fromHex $fromHex\n";
+        $fromBinary = NumberSystem::convertToDecimal('100110', NumberSystem::DIGIT_BINARY);
+        echo "fromBinary $fromBinary\n";
+        $hexValue = NumberSystem::convertFromDecimal(NumberSystem::DIGIT_HEXADECIMAL, 1234567890);
+        echo "hexValue $hexValue\n";
+        $binaryValue = NumberSystem::convertFromDecimal(NumberSystem::DIGIT_BINARY, 1234567890);
+        echo "binaryValue $binaryValue\n";
+        $digitAndLowerCaseDigits = NumberSystem::convert(NumberSystem::DITGIT_LOWER_CASE, 1234567890, NumberSystem::DIGIT_DECIMAL);
+        echo "digitAndLowerCaseDigits $digitAndLowerCaseDigits\n";
+        $hexadecimalValue = NumberSystem::convert(NumberSystem::DIGIT_HEXADECIMAL, 1234567890, NumberSystem::DIGIT_DECIMAL);
+        echo "hexadecimalValue $hexadecimalValue\n";
+
+        $now = time();
+        $digitAndLowerCaseDigits = NumberSystem::convert(NumberSystem::DITGIT_LOWER_CASE, $now);
+        echo "now: $now - $digitAndLowerCaseDigits\n";
+
+        $hex = 'zzzzzzzz';
+        $dec= NumberSystem::convertToDecimal($hex, NumberSystem::DITGIT_LOWER_CASE);
+        echo "dec $hex - $dec\n";
+    }
 
 }

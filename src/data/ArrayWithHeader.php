@@ -48,7 +48,7 @@ class ArrayWithHeader
             $this->attributeIndexes[$attribute] = $index;
         }
     }
-    
+
     /**
      * @return array
      */
@@ -178,10 +178,25 @@ class ArrayWithHeader
         $result = NULL;
         $cellIndex = $this->attributeIndexes[$attribute];
         foreach ($this->arrayData as $rowIndex => $rowValue) {
-            if ($rowValue[$cellIndex] == $value) {
-                $result = $rowIndex;
-                break;
+            if ($rowValue) {
+                if ($rowValue[$cellIndex] == $value) {
+                    $result = $rowIndex;
+                    break;
+                }
             }
+        }
+        return $result;
+    }
+
+    /**
+     * @param array $array
+     * @return array
+     */
+    public function assocToNormalArray($array)
+    {
+        $result = array_fill(0, count($this->header), '');
+        foreach ($array as $attribute => $value) {
+            $result[$this->attributeIndexes[$attribute]] = $value;
         }
         return $result;
     }
