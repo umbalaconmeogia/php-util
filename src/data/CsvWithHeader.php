@@ -72,9 +72,30 @@ class CsvWithHeader
     {
         $csvWithHeader = new CsvWithHeader();
         $csvWithHeader->fopen($csvFile);
+        $csvWithHeader->ignoreBomCharacters();
         $csvWithHeader->loadHeader();
         call_user_func($callback, $csvWithHeader);
         $csvWithHeader->fclose();
+    }
+
+    public static function write($csvFile, $callback, $header = NULL)
+    {
+        $csvWithHeader = self::openWrite($csvFile, $header);
+        call_user_func($callback, $csvWithHeader);
+        $csvWithHeader->fclose();
+    }
+
+    /**
+     * Open a file for write.
+     */
+    public static function openWrite($csvFile, $header = NULL)
+    {
+        $csvWithHeader = new CsvWithHeader();
+        $csvWithHeader->fopen($csvFile, 'w');
+        if ($header) {
+            $csvWithHeader->setHeader($header)->writeRow();
+        }
+        return $csvWithHeader;
     }
 
     /**
@@ -90,14 +111,12 @@ class CsvWithHeader
         } else {
             $this->handle = $csvFile;
         }
-
-        $this->ignoreBomCharacters();
     }
 
     /**
      * Read over BOM characters at header of file if exists.
      */
-    private function ignoreBomCharacters()
+    protected function ignoreBomCharacters()
     {
         // BOM as a string for comparison.
         $bom = "\xef\xbb\xbf";
@@ -149,6 +168,46 @@ class CsvWithHeader
     }
 
     /**
+     * Set row data.
+     * @param array $assocRow
+     * @return CsvWithHeader This object.
+     */
+    public function setRow($row)
+    {
+        $this->row = $row;
+        $this->rowAsAttributes = NULL;
+        return $this;
+    }
+
+    /**
+     * Set row data by an associate array.
+     * @param array $assocRow
+     * @return CsvWithHeader This object.
+     */
+    public function setRowAsAttributes($assocRow)
+    {
+        $row = [];
+        foreach ($this->header as $index => $attribute) {
+            $row[$index] = $assocRow[$attribute] ?? NULL;
+        }
+        $this->setRow($row);
+        return $this;
+    }
+
+    /**
+     * Set row data and write to file.
+     * @return CsvWithHeader This object.
+     */
+    public function writeRow($row = NULL)
+    {
+        if ($row === NULL) {
+            $row = $this->row;
+        }
+        fputcsv($this->handle, $row);
+        return $this;
+    }
+
+    /**
      * Get the loaded row as associated array, with keys defied by header
      * @return array
      */
@@ -174,18 +233,50 @@ class CsvWithHeader
      */
     public function loadHeader($trim = TRUE)
     {
-        $this->header = $this->loadRow($trim);
+        $this->setHeader($this->loadRow($trim));
+    }
 
-        // Set attribute index.
-        $this->attributeIndexes = [];
-        foreach ($this->header as $index => $attribute) {
-            $this->attributeIndexes[$attribute] = $index;
+    /**
+     * Add new attribute into header.
+     * @param string|string[] $attributes
+     */
+    public function addHeader($attributes)
+    {
+        // Assure $attributes is an array.
+        if (!is_array($attributes)) {
+            $attributes = [$attributes];
         }
+        foreach ($attributes as $attribute) {
+            if (!in_array($attribute, $this->header)) {
+                $this->header[] = $attribute;
+            }
+        }
+        $this->setHeader($this->header);
     }
 
     public function fclose()
     {
         fclose($this->handle);
+    }
+
+    /**
+     * Set header by specified array. Also reset attribute indexes.
+     * @param string[] $header
+     * @return CsvWithHeader This object.
+     */
+    public function setHeader($header)
+    {
+        $this->row = $this->header = $header;
+        $this->resetAttributeIndexes();
+        return $this;
+    }
+
+    private function resetAttributeIndexes()
+    {
+        $this->attributeIndexes = [];
+        foreach ($this->header as $index => $attribute) {
+            $this->attributeIndexes[$attribute] = $index;
+        }
     }
 
     /**
