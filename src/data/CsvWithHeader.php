@@ -8,7 +8,7 @@ namespace umbalaconmeogia\phputil\data;
  *
  * Example of usage:
  * ```php
- *   CsvWithHeader::read('employee.csv'), function($csv) {
+ *   CsvWithHeader::read('employee.csv', function($csv) {
  *       while ($csv->loadRow() !== FALSE) {
  *           // Get attributes as an array.
  *           $attr = $csv->getRowAsAttributes();
@@ -65,6 +65,17 @@ class CsvWithHeader
      * <p />
      * This will open the CSV file, and load header from the first row.
      * <p />
+     * Example of usage:
+     * ```php
+     *   CsvWithHeader::read('employee.csv', function($csv) {
+     *       while ($csv->loadRow() !== FALSE) {
+     *           // Get attributes as an array.
+     *           $attr = $csv->getRowAsAttributes();
+     *           // Display "name" attribute of data row.
+     *           echo 'Employee name: ' . $attr['name'] . "\n";
+     *       }
+     *   });
+     * ```
      * @param string $csvFile
      * @param Closure $callback Call back function that receives CsvWithHeader as parameter.
      */
@@ -78,6 +89,22 @@ class CsvWithHeader
         $csvWithHeader->fclose();
     }
 
+    /**
+     * Write a CSV file with header.
+     * <p />
+     * This will open the CSV file, and write header to the first row.
+     * <p />
+     * Example of usage:
+     * ```php
+     *   $headers = ['id', 'name', 'bod'];
+     *   CsvWithHeader::write('employee.csv', function($csv) {
+     *           // Write data to CSV.
+     *   }, $headers);
+     * ```
+     * @param string $csvFile
+     * @param Closure $callback Call back function that receives CsvWithHeader as parameter.
+     * @param string[] $header Header to write to file.
+     */
     public static function write($csvFile, $callback, $header = NULL)
     {
         $csvWithHeader = self::openWrite($csvFile, $header);
@@ -87,6 +114,20 @@ class CsvWithHeader
 
     /**
      * Open a file for write.
+     * <p />
+     * This will open the CSV file, and write header to the first row.
+     * <p />
+     * Example of usage:
+     * ```php
+     *   $headers = ['id', 'name', 'bod'];
+     *   $csvWithHeader = CsvWithHeader::openWrite('employee.csv', $headers);
+     *   // Write data to CSV using following method calls
+     *   // $csvWithHeader->writeRow()
+     *   // $csvWithHeader->setRow()->writeRow()
+     *   // $csvWithHeader->setRowAsAttributes()->writeRow()
+     *   $csvWithHeader->fclose();
+     * ```
+     * @param string[] $header Header to write to file.
      */
     public static function openWrite($csvFile, $header = NULL)
     {
@@ -169,7 +210,7 @@ class CsvWithHeader
 
     /**
      * Set row data.
-     * @param array $assocRow
+     * @param array $row
      * @return CsvWithHeader This object.
      */
     public function setRow($row)
@@ -196,6 +237,7 @@ class CsvWithHeader
 
     /**
      * Set row data and write to file.
+     * @param array $row If not specified, then $this->row is written.
      * @return CsvWithHeader This object.
      */
     public function writeRow($row = NULL)
@@ -271,20 +313,20 @@ class CsvWithHeader
         return $this;
     }
 
-    private function resetAttributeIndexes()
-    {
-        $this->attributeIndexes = [];
-        foreach ($this->header as $index => $attribute) {
-            $this->attributeIndexes[$attribute] = $index;
-        }
-    }
-
     /**
      * @return array
      */
     public function getHeader()
     {
         return $this->header;
+    }
+
+    private function resetAttributeIndexes()
+    {
+        $this->attributeIndexes = [];
+        foreach ($this->header as $index => $attribute) {
+            $this->attributeIndexes[$attribute] = $index;
+        }
     }
 
     /**
