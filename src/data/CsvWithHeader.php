@@ -157,7 +157,7 @@ class CsvWithHeader
     /**
      * Read over BOM characters at header of file if exists.
      */
-    protected function ignoreBomCharacters()
+    public function ignoreBomCharacters()
     {
         // BOM as a string for comparison.
         $bom = "\xef\xbb\xbf";
