@@ -192,7 +192,7 @@ class CsvWithHeader
         $this->row = fgetcsv($this->handle, 0, $this->csvDelimiter, $this->csvEnclosure, $this->csvEscape);
         if ($trim && $this->row) {
             foreach ($this->row as $key => $value) {
-                $this->row[$key] = trim($value);
+                $this->row[$key] = $value ? trim($value) : $value;
             }
         }
         $this->rowAsAttributes = NULL;
