@@ -4,9 +4,9 @@ namespace umbalaconmeogia\phputil\dev;
 /**
  * Usage of counting running time
  * <pre>
- * HDebug::startCountTime('MY_COUNT'); // Start count time.
+ * Debug::startCountTime('MY_COUNT'); // Start count time.
  * // do something
- * HDebug::runtimeReport(self::TIME_COUNT_KEY); // Display running time.
+ * Debug::runtimeReport(self::TIME_COUNT_KEY); // Display running time.
  * </pre>
  */
 class Debug
