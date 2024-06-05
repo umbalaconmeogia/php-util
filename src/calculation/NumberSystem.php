@@ -147,4 +147,17 @@ class NumberSystem
         }
         return $result;
     }
+
+    /**
+     * Set bit number <$bitNo> of $originValue to $value
+     * @param integer $originValue
+     * @param integer $bitNo
+     * @param integer $value 0 or 1
+     * @return integer The result.
+     */
+    public static function setBit($originValue, $bitNo, $value)
+    {
+        $bitMoved = $value << $bitNo;
+        return $bitMoved ? ($originValue | $bitMoved) : ($originValue & ~$bitMoved);
+    }
 }
