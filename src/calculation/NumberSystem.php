@@ -157,7 +157,12 @@ class NumberSystem
      */
     public static function setBit($originValue, $bitNo, $value)
     {
-        $bitMoved = $value << $bitNo;
-        return $bitMoved ? ($originValue | $bitMoved) : ($originValue & ~$bitMoved);
+        $result = 0;
+        if ($value) {
+            $result = $originValue | (1 << $bitNo);
+        } else {
+            $result = $originValue & ~(1 << $bitNo);
+        }
+        return $result;
     }
 }
