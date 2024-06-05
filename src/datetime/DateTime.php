@@ -62,12 +62,12 @@ class DateTime
   private $_timestamp;
 
   /**
-   * @param int|string|HDateTime $dateTime
-   * @return HDateTime
+   * @param int|string|DateTime $dateTime
+   * @return DateTime
    */
-  public static function createHDateTime($dateTime)
+  public static function createDateTime($dateTime)
   {
-    if (!$dateTime instanceof HDateTime) {
+    if (!$dateTime instanceof DateTime) {
       if (is_numeric($dateTime)) {
         $dateTime = static::createFromTimestamp($dateTime);
       } else {
@@ -78,22 +78,22 @@ class DateTime
   }
 
   /**
-   * Create an HDateTime object from a string that represents date time.
+   * Create an DateTime object from a string that represents date time.
    *
    * @param string $dateTime Source date time string.
    *   $dateTime may be "year/month/day" or "year/month/day hour:minute" or "year/month/day hour:minute:second"
-   * @return HDateTime
+   * @return DateTime
    */
   public static function createFromString($dateTime)
   {
     // Get the approciate timestamp.
     $timestamp = strtotime($dateTime);
-    // Get the HDateTime instance.
+    // Get the DateTime instance.
     return new static($timestamp);
   }
 
   /**
-   * Create an HDateTime object from date time elements.
+   * Create an DateTime object from date time elements.
    *
    * @param int $year
    * @param int $month
@@ -101,7 +101,7 @@ class DateTime
    * @param int $hour
    * @param int $minute
    * @param int $second
-   * @return HDateTime
+   * @return DateTime
    */
   public static function createFromYmdHms($year, $month, $day, $hour = 0, $minute = 0, $second = 0)
   {
@@ -112,10 +112,10 @@ class DateTime
   }
 
   /**
-   * Create an HDateTime instance from a timestamp.
+   * Create an DateTime instance from a timestamp.
    *
    * @param int $timestamp
-   * @return HDateTime
+   * @return DateTime
    */
   public static function createFromTimestamp($timestamp)
   {
@@ -123,8 +123,8 @@ class DateTime
   }
 
   /**
-   * Create an HDateTime object that represents current date time.
-   * @return HDateTime
+   * Create an DateTime object that represents current date time.
+   * @return DateTime
    */
   public static function now()
   {
@@ -145,7 +145,7 @@ class DateTime
    * Reset the date time elements of the object by specified timestamp.
    *
    * @param int $timestamp
-   * @return HDateTime $this object.
+   * @return DateTime $this object.
    */
   public function resetByTimestamp($timestamp)
   {
@@ -174,7 +174,7 @@ class DateTime
    * @param int $hour
    * @param int $minute
    * @param int $second
-   * @return HDateTime $this object.
+   * @return DateTime $this object.
    */
   public function reset($year, $month, $day, $hour, $minute, $second)
   {
@@ -294,10 +294,10 @@ class DateTime
   }
 
   /**
-   * Return an HDateTime object that represents the first day of month
+   * Return an DateTime object that represents the first day of month
    * that current instance represents.
    *
-   * @return HDateTime
+   * @return DateTime
    */
   public function firstDayOfMonth()
   {
@@ -305,10 +305,10 @@ class DateTime
   }
 
   /**
-   * Return an HDateTime object that represents the last day of month
+   * Return an DateTime object that represents the last day of month
    * that current instance represents.
    *
-   * @return HDateTime
+   * @return DateTime
    */
   public function lastDayOfMonth()
   {
@@ -316,8 +316,8 @@ class DateTime
   }
 
   /**
-   * Get a HDateTime object with the date part from current object (time part is zero).
-   * @return HDateTime
+   * Get a DateTime object with the date part from current object (time part is zero).
+   * @return DateTime
    */
   public function date()
   {
@@ -325,7 +325,7 @@ class DateTime
   }
 
   /**
-   * Create an HDateTime object by increment or decrement date time element
+   * Create an DateTime object by increment or decrement date time element
    * from the current object.
    * The parameter may be positive or negative interger.
    *
@@ -336,7 +336,7 @@ class DateTime
    * @param int $minute
    * @param int $second
    * @param bool $modify Modify the object itself if is set to TRUE.
-   * @return HDateTime
+   * @return DateTime
    */
   public function add($year, $month, $day, $hour, $minute, $second, $modify = FALSE)
   {
@@ -356,12 +356,12 @@ class DateTime
   }
 
   /**
-   * Create an HDateTime object by increase/decrease several years from
+   * Create an DateTime object by increase/decrease several years from
    * the current object.
    *
    * @param int $n
    * @param bool $modify Modify the object itself if is set to TRUE.
-   * @return HDateTime
+   * @return DateTime
    */
   public function nextNYear($n, $modify = FALSE)
   {
@@ -369,12 +369,12 @@ class DateTime
   }
 
   /**
-   * Create an HDateTime object by increase/decrease several months from
+   * Create an DateTime object by increase/decrease several months from
    * the current object.
    *
    * @param int $n
    * @param bool $modify Modify the object itself if is set to TRUE.
-   * @return HDateTime
+   * @return DateTime
    */
   public function nextNMonth($n, $modify = FALSE)
   {
@@ -382,12 +382,12 @@ class DateTime
   }
 
   /**
-   * Create an HDateTime object by increase/decrease several days from
+   * Create an DateTime object by increase/decrease several days from
    * the current object.
    *
    * @param int $n
    * @param bool $modify Modify the object itself if is set to TRUE.
-   * @return HDateTime
+   * @return DateTime
    */
   public function nextNDay($n, $modify = FALSE)
   {
@@ -395,12 +395,12 @@ class DateTime
   }
 
   /**
-   * Create an HDateTime object by increase/decrease several hours from
+   * Create an DateTime object by increase/decrease several hours from
    * the current object.
    *
    * @param int $n
    * @param bool $modify Modify the object itself if is set to TRUE.
-   * @return HDateTime
+   * @return DateTime
    */
   public function nextNHour($n, $modify = FALSE)
   {
@@ -408,12 +408,12 @@ class DateTime
   }
 
   /**
-   * Create an HDateTime object by increase/decrease several minutes from
+   * Create an DateTime object by increase/decrease several minutes from
    * the current object.
    *
    * @param int $n
    * @param bool $modify Modify the object itself if is set to TRUE.
-   * @return HDateTime
+   * @return DateTime
    */
   public function nextNMinute($n, $modify = FALSE)
   {
@@ -421,12 +421,12 @@ class DateTime
   }
 
   /**
-   * Create an HDateTime object by increase/decrease several seconds from
+   * Create an DateTime object by increase/decrease several seconds from
    * the current object.
    *
    * @param int $n
    * @param bool $modify Modify the object itself if is set to TRUE.
-   * @return HDateTime
+   * @return DateTime
    */
   public function nextNSecond($n, $modify = FALSE)
   {
@@ -434,18 +434,18 @@ class DateTime
   }
 
   /**
-   * Compare two HDateTime.
-   * @param HDateTime|string $a
-   * @param HDateTime|strinng $b
+   * Compare two DateTime.
+   * @param DateTime|string $a
+   * @param DateTime|strinng $b
    * @return number -1 if $a < $b, 0 if two equal, +1 if $a > $b
    */
   public static function cmp($a, $b)
   {
-    if (!($a instanceof HDateTime)) {
-      $a = HDateTime::createFromString($a);
+    if (!($a instanceof DateTime)) {
+      $a = DateTime::createFromString($a);
     }
-    if (!($b instanceof HDateTime)) {
-      $b = HDateTime::createFromString($b);
+    if (!($b instanceof DateTime)) {
+      $b = DateTime::createFromString($b);
     }
     $result = 0;
     if ($a->_timestamp < $b->_timestamp) {
@@ -458,21 +458,21 @@ class DateTime
 
   /**
    * Get different seconds between two date time.
-   * @param int|string|HDateTime $a
-   * @param int|string|HDateTime $b
+   * @param int|string|DateTime $a
+   * @param int|string|DateTime $b
    * @return int
    */
   public static function diffSecond($a, $b)
   {
-    $a = HDateTime::createHDateTime($a);
-    $b = HDateTime::createHDateTime($b);
+    $a = DateTime::createDateTime($a);
+    $b = DateTime::createDateTime($b);
     return $b->getTimestamp() - $a->getTimestamp();
   }
 
   /**
    * Get different days between two date time.
-   * @param int|string|HDateTime $a
-   * @param int|string|HDateTime $b
+   * @param int|string|DateTime $a
+   * @param int|string|DateTime $b
    * @return int
    */
   public static function diffDay($a, $b)
