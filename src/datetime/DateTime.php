@@ -201,11 +201,29 @@ class DateTime
   }
 
   /**
+   * Get month value with leading zero.
+   * @return string
+   */
+  public function getMonth0()
+  {
+    return ($this->_month > 10) ? $this->_month : ('0' . $this->_month);
+  }
+
+  /**
    * Get day value
    * @return int
    */
   public function getDay() {
     return $this->_day;
+  }
+
+  /**
+   * Get day value with leading zero.
+   * @return string
+   */
+  public function getDay0()
+  {
+    return ($this->_day > 10) ? $this->_day : ('0' . $this->_day);
   }
 
   /**
@@ -480,4 +498,3 @@ class DateTime
     return (int) round(self::diffSecond($a, $b)/84600);
   }
 }
-?>
