@@ -103,7 +103,7 @@ class DateTime
    * @param int $second
    * @return DateTime
    */
-  public static function createFromYmdHms($year, $month, $day, $hour = 0, $minute = 0, $second = 0)
+  public static function createFromYmdHms($year, $month, $day = 1, $hour = 0, $minute = 0, $second = 0)
   {
     // Convert to timestamp.
     $timestamp = mktime($hour, $minute, $second, $month, $day, $year);
