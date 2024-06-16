@@ -206,7 +206,7 @@ class DateTime
    */
   public function getMonth0()
   {
-    return ($this->_month > 10) ? $this->_month : ('0' . $this->_month);
+    return sprintf('%02d', $this->_month);
   }
 
   /**
