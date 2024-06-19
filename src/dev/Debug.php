@@ -11,6 +11,13 @@ namespace umbalaconmeogia\phputil\dev;
  */
 class Debug
 {
+    public static $REPORT_COUNTER_FORMAT = 'Count: %d times';
+
+    /**
+     * @var int[][] $counter[key]
+     */
+    private static $counter = [];
+
     /**
      * @var float[] $countTime[key]
      */
@@ -48,7 +55,7 @@ class Debug
     {
         $message = sprintf($messageFormat, self::countTime($key));
         if ($echo) {
-            echo "$message\n";
+            self::echo($message);
         }
         return $message;
     }
@@ -61,5 +68,51 @@ class Debug
     public static function echo($message, $end = "\n")
     {
         echo "$message$end";
+    }
+
+    /**
+     * Restart counter specified by a key.
+     * @param string $key
+     */
+    public static function startCounter($key = 'default')
+    {
+        self::$counter[$key] = 0;
+    }
+
+    /**
+     * Increase counter of speicified key.
+     * @param int $unit
+     * @param string $key
+     * @param int|null $displayBatchSize If set, then display message if counter reach batch size.
+     * @return float Number of counter.
+     */
+    public static function increaseCounter($displayBatchSize = NULL, $key = 'default', $unit = 1, $messageFormat = NULL)
+    {
+        self::$counter[$key] += $unit;
+        if ($displayBatchSize && (self::$counter[$key] % $displayBatchSize == 0)) {
+            self::reportCounter($key, $messageFormat);
+        }
+        return self::$counter[$key];
+    }
+
+    public static function getCounter($key = 'default')
+    {
+        return self::$counter[$key];
+    }
+
+    /**
+     * Display a running time.
+     * @param string $key
+     * @param string $messageFormat
+     * @param boolean $echo If true, then echo the message.
+     */
+    public static function reportCounter($key = 'default', $messageFormat = NULL, $echo = TRUE)
+    {
+        $messageFormat = $messageFormat ?? self::$REPORT_COUNTER_FORMAT;
+        $message = sprintf($messageFormat, self::$counter[$key]);
+        if ($echo) {
+            self::echo($message);
+        }
+        return $message;
     }
 }
