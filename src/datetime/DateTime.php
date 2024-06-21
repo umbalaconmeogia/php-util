@@ -497,4 +497,20 @@ class DateTime
   {
     return (int) round(self::diffSecond($a, $b)/84600);
   }
+
+  /**
+   * Get different days between two date time.
+   * @param int|string|DateTime $a
+   * @param int|string|DateTime $b
+   * @return int
+   */
+  public static function diffMonth($a, $b)
+  {
+    $a = DateTime::createDateTime($a);
+    $b = DateTime::createDateTime($b);
+    $origin = new \DateTimeImmutable($a->toDateStr());
+    $target = new \DateTimeImmutable($b->toDateStr());
+    $interval = $origin->diff($target);
+    return (int) $interval->format('%m');
+  }
 }
