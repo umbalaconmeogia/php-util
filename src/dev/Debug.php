@@ -115,4 +115,14 @@ class Debug
         }
         return $message;
     }
+
+    /**
+     * @param string $fullClassName
+     * @return string
+     */
+    public static function shortClassName($fullClassName)
+    {
+        $paths = explode('\\', $fullClassName);
+        return $paths[count($paths) - 1];
+    }
 }
