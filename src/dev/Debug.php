@@ -70,6 +70,20 @@ class Debug
         echo "$message$end";
     }
 
+    public static function die($message, $end = "\n")
+    {
+        self::echo($message, $end);
+        die;
+    }
+
+    public static function print_r($data, $die = TRUE)
+    {
+        self::echo(print_r($data, TRUE));
+        if ($die) {
+            die;
+        }
+    }
+
     /**
      * Restart counter specified by a key.
      * @param string $key
