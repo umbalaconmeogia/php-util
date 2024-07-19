@@ -85,6 +85,41 @@ class Debug
     }
 
     /**
+     *
+     * Usage example
+     * ```php
+     *    Debug::dieCondition($sfProductCycle, ['team_code' => '211000', 'buyer_code' => '000101', 'product_code' => '010402'],
+     *              "result = $result,");
+     * ```
+     * @param Object $conditionObj
+     * @param array $condition Mapping between object attribute and value.
+     * @param array|string $message
+     */
+    public static function dieCondition($conditionObj, $condition, $message = NULL)
+    {
+        $checkCondition = TRUE;
+        foreach ($condition as $key => $value) {
+            $checkCondition = $checkCondition && ($conditionObj->$key == $value);
+        }
+        if ($checkCondition) {
+            if ($message == NULL) {
+                $message = $condition;
+            }
+            if (is_callable($message)) {
+                $message = call_user_func($message);
+            } else if (is_array($message)) {
+                $str = [];
+                foreach ($message as $key => $value) {
+                    $str[] = "$key = $value";
+                }
+                $message = join(', ', $str);
+            }
+
+            Debug::die($message);
+        }
+    }
+
+    /**
      * Restart counter specified by a key.
      * @param string $key
      */
