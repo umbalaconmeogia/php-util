@@ -90,6 +90,30 @@ class CsvWithHeader
     }
 
     /**
+     * Read a CSV file with header.
+     * <p />
+     * This will open the CSV file, and load header from the first row.
+     * <p />
+     * Example of usage:
+     * ```php
+     *   CsvWithHeader::readRow('employee.csv', function($rowAssoc, $csvWithHeader) {
+     *       echo 'Employee name: ' . $rowAssoc['name'] . "\n";
+     *   });
+     * ```
+     * @param string $csvFile
+     * @param callable $callback Call back function that receives $rowAssoc and CsvWithHeader as parameter.
+     */
+    public static function readRow($csvFile, $callback)
+    {
+        self::read($csvFile, function($csvWithHeader) use ($callback) {
+            while ($csvWithHeader->loadRow() !== FALSE) {
+                $rowAssoc = $csvWithHeader->getRowAsAttributes();
+                call_user_func($callback, $rowAssoc, $csvWithHeader);
+            }
+        });
+    }
+
+    /**
      * Write a CSV file with header.
      * <p />
      * This will open the CSV file, and write header to the first row.
